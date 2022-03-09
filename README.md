@@ -82,6 +82,7 @@ Solution 1:
 ```
 1- Create instance_config.sh script:
 #!/usr/bin/env bash
+# Install ocker an depenencies
 yum -y install yum-utils epel-release
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 yum -y install docker-ce docker-compose
@@ -99,11 +100,14 @@ echo '"bip": "172.17.0.1/24",' >> /etc/docker/daemon.json
 echo '"mtu": 1450,' >> /etc/docker/daemon.json
 echo '"fixed-cidr": "172.17.0.0/24"' >> /etc/docker/daemon.json
 echo '}' >> /etc/docker/daemon.json
+# Retreive meta_data file
 curl http://169.254.169.254/openstack/latest/meta_data.json -O
 IP=$(jq -r '.meta.ip' < meta_data.json)
 TOKEN=$(jq -r '.meta.token' < meta_data.json)
+# Start docker
 systemctl enable docker
 systemctl start docker
+# Join swarm cluster
 docker swarm join --token $TOKEN $IP:2377
 
 2- Run the following command: 
