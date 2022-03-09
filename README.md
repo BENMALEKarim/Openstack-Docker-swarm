@@ -82,7 +82,7 @@ Solution 1:
 ```
 1- Create instance_config.sh script:
 #!/usr/bin/env bash
-# Install ocker an depenencies
+# Install Docker and depenencies
 yum -y install yum-utils epel-release
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 yum -y install docker-ce docker-compose
